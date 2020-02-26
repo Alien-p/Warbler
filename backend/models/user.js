@@ -19,7 +19,29 @@ const userSchema = new mongoose.Schema({
   profileImageUrl: {
     type: String
   }
-})
+});
+
+userSchema.pre('save', async function(next) {
+  try {
+    if(!this.isModified('password')) {
+      return next();
+    }
+    let hashedPassword = await bcryptjs.hash(this.password, 10);
+    this.password = hashedPassword;
+    return next();
+  } catch (error) {
+    return next(err);
+  }
+});
+
+userSchema.method.comparePassword = async function(candidatePassword, next) {
+  try {
+    let isMatch = await bcryptjs.compare(candidatePassword, this.password);
+    return isMatch;
+  } catch (error) {
+    return next(error);
+  }
+}
 
 const User = mongoose.model("User", userSchema);
 

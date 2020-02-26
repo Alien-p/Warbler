@@ -1,18 +1,23 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const PORT = 8081;
 const bodyParser = require('body-parser');
 const errorHandler = require('./handlers/error');
+const authRoutes = require('./routes/auth');
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use('/api/auth', authRoutes);
 
 app.use( (req, res, next) => {
   let err = new Error('Page Not Found');
   err.status = 404;
   next(err);
 });
+
 app.use(errorHandler);
 
  app.listen(PORT, () => {
