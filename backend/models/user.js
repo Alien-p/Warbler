@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    require: true
+    required: true,
   },
   profileImageUrl: {
     type: String
