@@ -31,7 +31,6 @@ exports.signup = async function(req, res, next) {
     let user = await db.User.create(req.body);
     //create a token
     let {id, username, profileImageUrl} = user;
-    console.log(process.env.SECRET_KEY);
     let token = jwt.sign({ id, username, profileImageUrl }, process.env.SECRET_KEY);
     return res.status(200).json({id, username, profileImageUrl, token})
   } catch (err) {
